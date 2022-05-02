@@ -20,6 +20,19 @@ class AddItemToModelWithImage(generics.CreateAPIView, generics.RetrieveUpdateDes
             return Response({"success": True, "data": serialized_data.data})
         return Response({"success": False, "error": serialized_data.error})
 
+    def update(self, request, pk):
+        instance = self.get_object()
+        print(request.data)
+        data_for_change = request._request.POST.dict()
+        if 'image' in request._request.FILES:
+            data_for_change['image'] = request._request.FILES.get('image')
+        serialized = self.serializer_class(
+            instance, data=data_for_change, partial=True)
+        if serialized.is_valid():
+            self.perform_update(serialized)
+            return Response({"success": True, "data": serialized.data})
+        return Response({"success": False, "Errors": str(serialized.errors)})
+
 
 class CategoryADMIN(AddItemToModelWithImage):
     queryset = Category.objects.all()

@@ -10,5 +10,10 @@ urlpatterns = [
     path('address/<int:pk>', AddressUpdateDelete.as_view(), name='address_update_delete'),
     path('category/<int:category>', ServiceByCategory.as_view(), name='category_wise_service'),
     path('category_sub/<int:category>', SubCategoryByCategory.as_view(), name='category_wise_sub'),
-    path('subcategory/<int:sub_category>', ServiceBySubCategory.as_view(), name='sub_category_wise_service')
+    path('subcategory/<int:sub_category>', ServiceBySubCategory.as_view(), name='sub_category_wise_service'),
+    path('trending', TreandingServices.as_view(), name="trending_services"),
+    path('order', OrderAPI.as_view(), name='order_view_create'),
+    path('order/<int:pk>', OrderRetriveUpdate.as_view(), name='order_update'),
+    path('time/<int:sid>/<str:query_date>', TimeSlotAPI.as_view(), name='time'),
+    path('banner/<str:name>', BannerAPI.as_view(), name='banner'),
 ]
