@@ -26,6 +26,7 @@ class Order(models.Model):
     date_time = models.DateTimeField(auto_now_add=True)
     discount = models.IntegerField(default=0)
     redeemed_points = models.IntegerField(default=0)
+    coupon_id = models.CharField(max_length=255, blank=True, null=True)
     status = models.CharField(max_length=100, default="order_placed")
 
 
@@ -36,7 +37,9 @@ class MidOrder(models.Model):
     service_cost = models.FloatField(default=0)
     service_description = models.TextField()
     service_date = models.DateField()
+    image = models.ImageField(upload_to='services', null=True, blank=True)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     start_time = models.TimeField(null=True, blank=True)
     end_time = models.TimeField(null=True, blank=True)
     service = models.ForeignKey(Service, on_delete=models.DO_NOTHING)
+    instruction = models.TextField(blank=True, null=True)

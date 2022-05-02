@@ -20,6 +20,7 @@ class SubCategory(models.Model):
 class Service(models.Model):
     sid = models.AutoField(primary_key=True)
     user = models.ManyToManyField(User, blank=True)
+    image = models.ImageField(upload_to="services", null=True, blank=True)
     name = models.CharField(max_length=255)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE)

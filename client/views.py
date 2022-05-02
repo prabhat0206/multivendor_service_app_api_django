@@ -131,11 +131,13 @@ class OrderAPI(generics.ListCreateAPIView):
                             "service_name": service.name,
                             "service_description": service.description,
                             "service_cost": service.service_price,
+                            "image": service.image,
                             "order": order.data['oid'],
                             "service": service.sid,
                             "start_time": ser['start_time'],
                             "end_time": ser['end_time'],
                             "service_date": ser['service_date'],
+                            "instruction": ser['instruction']
                         }
                         mid_order = MidOrderSerializer(data=service_data)
                         if mid_order.is_valid():

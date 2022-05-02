@@ -1,4 +1,8 @@
 from rest_framework import generics
+from account.models import User
+from account.serializer import UserSerializer
+from client.models import Order
+from client.serializer import OrderWithMidOrder
 from .models import Category, SubCategory
 from .serializer import *
 from rest_framework.permissions import IsAdminUser
@@ -47,3 +51,26 @@ class SubCategoryADMIN(AddItemToModelWithImage):
 class ServiceADMIN(AddItemToModelWithImage):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
+
+
+class BannerADMIN(AddItemToModelWithImage):
+    queryset = Banner.objects.all()
+    serializer_class = BannerSerializer
+
+
+class OrderADMIN(generics.ListAPIView):
+    queryset = Order.objects.all().order_by('-oid')
+    serializer_class = OrderWithMidOrder
+    permission_classes = [IsAdminUser]
+
+
+class UserADMIN(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
+
+
+class UserUpdateADMIN(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
