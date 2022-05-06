@@ -22,7 +22,7 @@ class AddItemToModelWithImage(generics.CreateAPIView, generics.RetrieveUpdateDes
         if serialized_data.is_valid():
             serialized_data.save()
             return Response({"success": True, "data": serialized_data.data})
-        return Response({"success": False, "error": serialized_data.error})
+        return Response({"success": False, "error": serialized_data.errors})
 
     def update(self, request, pk):
         instance = self.get_object()
