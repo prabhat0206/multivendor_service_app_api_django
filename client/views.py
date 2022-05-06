@@ -70,7 +70,7 @@ class SubCategoryByCategory(SubCategoryAPI):
 class ServiceBySubCategory(ServiceAPI):
 
     def get_queryset(self, *args, **kwargs):
-        return super(ServiceBySubCategory, self).get_queryset(*args, **kwargs).filter(sub_category=self.kwarge.get('sub_category'))
+        return super(ServiceBySubCategory, self).get_queryset(*args, **kwargs).filter(sub_category=self.kwargs.get('sub_category'))
 
 
 class AddressAPI(generics.ListCreateAPIView):
