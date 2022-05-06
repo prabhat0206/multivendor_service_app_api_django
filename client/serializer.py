@@ -42,3 +42,8 @@ class TimeSlotSerializer(ModelSerializer):
     class Meta:
         model = MidOrder
         fields = ['start_time', 'end_time', 'service_date']
+
+
+class ServiceViewSerializer(ServiceWithMoreDetails):
+    review_set = ReviewSerializer(many=True)
+    faq_set = FAQSerializer(many=True)

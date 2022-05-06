@@ -106,5 +106,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.staff
 
     def save(self, *args, **kwargs):
-        self.referal_code = generate_referel_code()
+        if not (self.referal_code):
+            self.referal_code = generate_referel_code()
         super(User, self).save(*args, **kwargs)

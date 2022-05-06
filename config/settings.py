@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+import django_heroku
 from dotenv import load_dotenv
+import razorpay
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,14 +29,15 @@ SECRET_KEY = 'django-insecure-o5xw3#eaa*0&f0ar00yf#65(ysy^bx!kccc1r^==+@an#%35o6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['s8.pythonanywhere.com', '127.0.0.1', '0.0.0.0', 'localhost']
+CLIENT = razorpay.Client(auth=("rzp_live_NOZMOhOyFOc5cy", "wV54AxsyJKXLczZ8vK0Jdt7W"))
 
 # Application definition
 
 INSTALLED_APPS = [
     'adminn.apps.AdminnConfig',
     'client.apps.ClientConfig',
+    'vendor.apps.VendorConfig',
     'account.apps.AccountConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -157,3 +160,5 @@ PHONENUMBER_DEFAULT_REGION = 'IN'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+django_heroku.settings(locals())
+

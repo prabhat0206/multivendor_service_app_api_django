@@ -57,3 +57,12 @@ class Offer(models.Model):
     coupon_id = models.CharField(max_length=25, unique=True)
     description = models.TextField()
     discount = models.IntegerField(default=10)
+
+
+class Query(models.Model):
+    id = models.AutoField(primary_key=True)
+    question = models.TextField()
+    answer = models.TextField(null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_at_admin = models.BooleanField(default=False)
+    service = models.ForeignKey(Service, on_delete=models.CASCADE)

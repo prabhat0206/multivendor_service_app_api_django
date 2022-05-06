@@ -65,12 +65,35 @@ class OrderADMIN(generics.ListAPIView):
 
 
 class UserADMIN(generics.ListAPIView):
-    queryset = User.objects.all()
+    queryset = User.objects.all().filter(staff=False, superuser=False)
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser]
 
 
 class UserUpdateADMIN(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
+
+
+class ReviewAdmin(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+    permission_classes = [IsAdminUser]
+
+class FAQAdmin(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
+    queryset = FAQ.objects.all()
+    serializer_class = FAQSerializer
+    permission_classes = [IsAdminUser]
+
+
+class AddVendor(generics.ListCreateAPIView):
+    queryset = User.objects.all().filter(staff=True)
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
+
+
+class UpdateDistroyVendor(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser]

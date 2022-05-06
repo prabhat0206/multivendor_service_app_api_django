@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from adminn.serializer import *
 from client.models import Address
+from django.conf import settings
 from .serializer import *
 
 
@@ -57,13 +58,13 @@ class CartAPI(generics.ListCreateAPIView):
 class ServiceByCategory(ServiceAPI):
 
     def get_queryset(self, *args, **kwargs):
-        return super(ServiceByCategory, self).get_queryset(*args, **kwargs).filter(category=self.category)
+        return super(ServiceByCategory, self).get_queryset(*args, **kwargs).filter(category=self.kwargs['category'])
 
 
 class SubCategoryByCategory(SubCategoryAPI):
 
     def get_queryset(self, *args, **kwargs):
-        return super(SubCategoryByCategory, self).get_queryset(*args, **kwargs).filter(category=self.category)
+        return super(SubCategoryByCategory, self).get_queryset(*args, **kwargs).filter(category=self.kwargs.get('category'))
 
 
 class ServiceBySubCategory(ServiceAPI):
@@ -115,8 +116,8 @@ class OrderAPI(generics.ListCreateAPIView):
         if address:
             data['address'] = f'{address.name}, {address.address_1}, {address.address_2}, {address.city}, {address.state}, {address.pin_code}, {address.telephone}'
         if data['payment_method'] != 'cod':
-            # do_something
-            pass
+            if not (settings.CLIENT.utility.verify_payment_signature(data)):
+                return Response({"success": False, "error": "payment id not valid"})
         order = OrderSerializer(data=data)
         if order.is_valid():
             order.save()
@@ -180,3 +181,20 @@ class BannerAPI(generics.ListAPIView):
     def get_queryset(self, *args, **kwargs):
         return super(BannerAPI, self).get_queryset(*args, **kwargs).filter(name=self.kwargs.get('name'))
 
+
+class OrderID(View):
+    def get(self, request):
+        order = settings.CLIENT.order.create({
+            "amount": float(request.GET.get("amount")) * 100,
+            "currency": "INR",
+            "receipt": "#1receipt",
+            "notes": {
+                "note1": "payment"
+            }
+        })
+        return JsonResponse({'success': True, "order_id": order['id']}, safe=False)
+
+
+class ServiceViewApi(generics.RetrieveAPIView):
+    queryset = Service.objects.all()
+    serializer_class = ServiceViewSerializer

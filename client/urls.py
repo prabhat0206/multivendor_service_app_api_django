@@ -16,4 +16,6 @@ urlpatterns = [
     path('order/<int:pk>', OrderRetriveUpdate.as_view(), name='order_update'),
     path('time/<int:sid>/<str:query_date>', TimeSlotAPI.as_view(), name='time'),
     path('banner/<str:name>', BannerAPI.as_view(), name='banner'),
+    path('order_id', OrderID.as_view(), name='order_id'),
+    path('service/<int:pk>', ServiceViewApi.as_view(), name='service_api')
 ]
