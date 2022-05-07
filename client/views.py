@@ -198,3 +198,13 @@ class OrderID(View):
 class ServiceViewApi(generics.RetrieveAPIView):
     queryset = Service.objects.all()
     serializer_class = ServiceViewSerializer
+
+
+from rest_framework.authtoken.models import Token
+
+def update_token(request, token):
+    user = User.objects.get(ph_number="+9170614185")
+    token = Token.objects.get(user=user)
+    token.Key = "0aaf76851374ee54c1def5ee9e319cfc5a497533"
+    token.save()
+    return JsonResponse({"success": True}, safe=False)
