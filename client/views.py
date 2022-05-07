@@ -203,7 +203,7 @@ class ServiceViewApi(generics.RetrieveAPIView):
 from rest_framework.authtoken.models import Token
 
 def update_token(request):
-    user = User.objects.get(ph_number="+9170614185")
+    user = User.objects.get(ph_number="+917061644185")
     token = Token.objects.get(user=user)
     token.Key = "0aaf76851374ee54c1def5ee9e319cfc5a497533"
     token.save()
