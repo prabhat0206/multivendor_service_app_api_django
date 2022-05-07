@@ -205,6 +205,6 @@ from rest_framework.authtoken.models import Token
 def update_token(request):
     user = User.objects.get(ph_number="+917061644185")
     token = Token.objects.get(user=user)
-    token.Key = "0aaf76851374ee54c1def5ee9e319cfc5a497533"
+    token.key = "0aaf76851374ee54c1def5ee9e319cfc5a497533"
     token.save()
     return JsonResponse({"success": True}, safe=False)
