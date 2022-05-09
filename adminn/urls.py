@@ -9,6 +9,7 @@ urlpatterns = [
     path('service', ServiceADMIN.as_view(), name='add_service'),
     path('service/<int:pk>', ServiceADMIN.as_view(), name='service_update'),
     path('banner', BannerADMIN.as_view(), name='banner'),
+    path('banners', BannersADMIN.as_view(), name='banners'),
     path('banner/<int:pk>', BannerADMIN.as_view(), name='banner_update'),
     path('orders', OrderADMIN.as_view(), name='orders'),
     path('all_users', UserADMIN.as_view(), name='all_users'),

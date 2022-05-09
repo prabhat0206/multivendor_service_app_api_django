@@ -58,6 +58,12 @@ class BannerADMIN(AddItemToModelWithImage):
     serializer_class = BannerSerializer
 
 
+class BannersADMIN(generics.ListAPIView):
+    queryset = Banner.objects.all()
+    serializer_class = BannerSerializer
+    permission_classes = [IsAdminUser]
+
+
 class OrderADMIN(generics.ListAPIView):
     queryset = Order.objects.all().order_by('-oid')
     serializer_class = OrderWithMidOrder
