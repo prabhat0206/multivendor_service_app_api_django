@@ -29,7 +29,8 @@ SECRET_KEY = 'django-insecure-o5xw3#eaa*0&f0ar00yf#65(ysy^bx!kccc1r^==+@an#%35o6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['s8.pythonanywhere.com', '127.0.0.1', '0.0.0.0', 'localhost']
+ALLOWED_HOSTS = ['s8.pythonanywhere.com', '127.0.0.1',
+                 '0.0.0.0', 'localhost', 'encoded.pythonanywhere.com']
 CLIENT = razorpay.Client(auth=("rzp_live_NOZMOhOyFOc5cy", "wV54AxsyJKXLczZ8vK0Jdt7W"))
 
 # Application definition
