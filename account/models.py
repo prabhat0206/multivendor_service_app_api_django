@@ -75,6 +75,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)
     superuser = models.BooleanField(default=False)
+    delivery_boy = models.BooleanField(default=False)
     referal_code = models.CharField(max_length=10, null=True, blank=True)
     earned_points = models.IntegerField(default=0)
     wallet_balance = models.IntegerField(default=0)
@@ -104,6 +105,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def is_staff(self):
         return self.staff
+
+    @property
+    def is_delivery_boy(self):
+        return self.delivery_boy
 
     def save(self, *args, **kwargs):
         if not (self.referal_code):

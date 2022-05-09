@@ -43,3 +43,4 @@ class MidOrder(models.Model):
     end_time = models.TimeField(null=True, blank=True)
     service = models.ForeignKey(Service, on_delete=models.DO_NOTHING)
     instruction = models.TextField(blank=True, null=True)
+    delivery_boy = models.ForeignKey(User, on_delete=models.DO_NOTHING, blank=True, null=True)

@@ -1,8 +1,8 @@
 from rest_framework import generics
 from account.models import User
 from account.serializer import UserSerializer
-from client.models import Order
-from client.serializer import OrderWithMidOrder
+from client.models import Order, MidOrder
+from client.serializer import MidOrderSerializer, OrderWithMidOrder
 from .models import Category, SubCategory
 from .serializer import *
 from rest_framework.permissions import IsAdminUser
@@ -103,3 +103,15 @@ class UpdateDistroyVendor(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser]
+
+
+class AssignDeliveryBoy(generics.UpdateAPIView):
+    permission_classes = [IsAdminUser]
+    queryset = MidOrder.objects.all()
+    serializer_class = MidOrderSerializer
+
+    def update(self, request):
+        data = self.get_object()
+        data.delivery_boy = User.objects.get(id=int(request.args.get('id')))
+        data.save()
+        return Response({"Success": True})

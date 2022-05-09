@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from adminn.serializer import *
 from client.models import Address, MidOrder, Order
 
@@ -36,6 +36,10 @@ class MidOrderSerializer(ModelSerializer):
 
 class OrderWithMidOrder(OrderSerializer):
     midorder_set = MidOrderSerializer(many=True)
+    buyer_name = SerializerMethodField()
+
+    def get_buyer_name(self, instance):
+        return instance.user.name
 
 
 class TimeSlotSerializer(ModelSerializer):

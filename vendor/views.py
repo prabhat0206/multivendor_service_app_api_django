@@ -4,10 +4,15 @@ from rest_framework.response import Response
 from client.models import MidOrder
 from .serializers import *
 from adminn.serializer import QuerySerializer
-from account.models import User
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, BasePermission
 from account.serializer import UserSerializer
 from client.serializer import ServiceWithMoreDetails, MidOrderSerializer
+
+
+class IsDeliveryUser(BasePermission):
+
+    def has_permission(self, request, view):
+        return bool(request.user and request.user.delivery_boy)
 
 
 class MyOrders(ListAPIView):
@@ -16,7 +21,7 @@ class MyOrders(ListAPIView):
     permission_classes = [IsAdminUser]
 
     def get_queryset(self, *args, **kwargs):
-        return super(MyOrders, self).get_queryset(*args, **kwargs).filter(service__provider=self.request.user).order_by('-id')
+        return super(MyOrders, self).get_queryset(*args, **kwargs).filter(delivery_boy=self.request.user).order_by('-id')
 
 
 class MyServices(ListAPIView):
@@ -31,12 +36,13 @@ class MyServices(ListAPIView):
 class UpdateStatus(UpdateAPIView):
     queryset = MidOrder.objects.all()
     serializer_class = MidOrderSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminUser, IsDeliveryUser]
 
     def update(self, request, pk):
         instance = self.get_object()
-        if request.user != instance.service.provider:
-            return Response(401)
+        if request.user.delivery_boy:
+            if request.user != instance.delivery_boy:
+                return Response(401)
         status = request.GET.get('status', None)
         if not status:
             return Response(404)

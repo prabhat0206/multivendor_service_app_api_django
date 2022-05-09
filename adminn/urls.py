@@ -20,4 +20,5 @@ urlpatterns = [
     path('faq/<int:pk>', FAQAdmin.as_view(), name='faq_update'),
     path('vendor', AddVendor.as_view(), name='add_vendor'),
     path('update_vendor', UpdateDistroyVendor.as_view(), name='update_vendor'),
+    path('assign_order/<int:pk>', AssignDeliveryBoy.as_view(), name='assign_order')
 ]

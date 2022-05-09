@@ -10,5 +10,5 @@ class OrderVSerializer(ModelSerializer):
 
 
 class MidOrderVSerializer(MidOrderSerializer):
-    order = OrderVSerializer
+    order = OrderVSerializer()
 
