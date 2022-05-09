@@ -57,7 +57,7 @@ class Users(ListAPIView):
     permission_classes = [IsAdminUser]
 
     def get(self, request, *args, **kwargs):
-        instance = self.get_queryset().filter(service__provider=request.user)
+        instance = self.get_queryset().filter(delivery_boy=request.user)
         users = []
         for mid in instance:
             if mid.order.user not in users:
