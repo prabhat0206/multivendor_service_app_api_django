@@ -5,7 +5,9 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from .serializer import *
 from django.contrib.auth import password_validation
 from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
 from django.conf import settings
+from django.contrib import auth
 
 
 class Login(ObtainAuthToken):
@@ -18,18 +20,6 @@ class Login(ObtainAuthToken):
             serialized_user = UserSerializer(user).data
             return Response({"Success": True, "token": token.key, "user": serialized_user})
         return Response({"Success": False, "Error": "Invalid login credentials"})
-
-
-class LoginUser(ObtainAuthToken):
-
-    def validate_password(self, value):
-        print(password_validation.validate_password(value, self.instance))
-        return value
-
-    def post(self, request):
-        data = request.data
-        self.validate_password(data['password'])
-        return Response({"Success": True})
 
 
 class Register(generics.CreateAPIView):
@@ -69,3 +59,14 @@ class AddBalanceToWallet(generics.CreateAPIView):
             return Response({"success": True})
         else:
             return Response({"success": False, "error": "Server is not responding correctly"})
+
+
+@api_view(['POST'])
+@permission_classes((AllowAny,))
+def login_with_ph_number(request):
+    data = request.data
+    user = User.objects.filter(ph_number=data.get('ph_number')).first()
+    if (user):
+        if user.check_password(data["password"]):
+            return Response({"success": True, "token": user.auth_token.key, "user": UserSerializer(user).data})
+    return Response({"success": False, "error": "Server unable to authenticate you"})
