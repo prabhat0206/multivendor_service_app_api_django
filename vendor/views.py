@@ -1,4 +1,4 @@
-from rest_framework.generics import ListAPIView, UpdateAPIView
+from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveUpdateAPIView
 from adminn.models import Query, Service
 from rest_framework.response import Response
 from client.models import MidOrder
@@ -33,7 +33,7 @@ class MyServices(ListAPIView):
         return super(MyServices, self).get_queryset(*args, **kwargs).filter(provider=self.request.user).order_by('-sid')
 
 
-class UpdateStatus(UpdateAPIView):
+class UpdateStatus(RetrieveUpdateAPIView):
     queryset = MidOrder.objects.all()
     serializer_class = MidOrderSerializer
     permission_classes = [IsAdminUser, IsDeliveryUser]
