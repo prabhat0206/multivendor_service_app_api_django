@@ -109,8 +109,8 @@ class UpdateDistroyVendor(generics.RetrieveUpdateDestroyAPIView):
 
 class AssignDeliveryBoy(generics.UpdateAPIView):
     permission_classes = [IsAdminUser]
-    queryset = MidOrder.objects.all()
-    serializer_class = MidOrderSerializer
+    queryset = Order.objects.all()
+    serializer_class = OrderWithMidOrder
 
     def update(self, request):
         data = self.get_object()
@@ -123,7 +123,7 @@ class StatsView(generics.ListAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [IsAdminUser]
-    
+
     def get(self, request):
         orders_count = self.queryset().count()
         cancelled_orders = self.queryset().filter(status="cancelled").count()

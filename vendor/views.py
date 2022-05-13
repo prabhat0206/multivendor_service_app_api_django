@@ -52,16 +52,16 @@ class UpdateStatus(RetrieveUpdateAPIView):
 
 
 class Users(ListAPIView):
-    queryset = MidOrder.objects.all()
+    queryset = Order.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser]
 
     def get(self, request, *args, **kwargs):
         instance = self.get_queryset().filter(delivery_boy=request.user)
         users = []
-        for mid in instance:
-            if mid.order.user not in users:
-                users.append(mid.order.user)
+        for order in instance:
+            if order.user not in users:
+                users.append(order.user)
         return Response({"success": True, "data": self.serializer_class(users, many=True).data})
 
 
