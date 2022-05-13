@@ -36,7 +36,7 @@ class MyServices(ListAPIView):
 class UpdateStatus(RetrieveUpdateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderVSerializer
-    permission_classes = [IsAdminUser, IsDeliveryUser]
+    permission_classes = [IsDeliveryUser, IsAdminUser]
 
     def update(self, request, pk):
         instance = self.get_object()
