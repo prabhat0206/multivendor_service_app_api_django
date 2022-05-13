@@ -125,9 +125,9 @@ class StatsView(generics.ListAPIView):
     permission_classes = [IsAdminUser]
 
     def get(self, request):
-        orders_count = self.queryset().count()
-        cancelled_orders = self.queryset().filter(status="cancelled").count()
-        deliverd_orders = self.queryset().filter(status="completed")
+        orders_count = self.get_queryset().count()
+        cancelled_orders = self.get_queryset().filter(status="cancelled").count()
+        deliverd_orders = self.get_queryset().filter(status="completed")
         total_amount = deliverd_orders.annotate(total_price=Sum("total_amount"))
         services = Service.objects.count()
         return Response({
