@@ -4,7 +4,7 @@ from client.serializer import MidOrderSerializer
 
 
 class OrderVSerializer(ModelSerializer):
-    midorder_set = MidOrderSerializer
+    midorder_set = MidOrderSerializer(many=True)
     class Meta:
         model = Order
         fields = ['oid', 'address', 'date_time', 'payment_method', 'midorder_set']
