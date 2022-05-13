@@ -1,4 +1,6 @@
+from dataclasses import field
 from rest_framework.serializers import ModelSerializer
+from account.models import User
 from client.models import Order
 from client.serializer import MidOrderSerializer
 
@@ -14,3 +16,7 @@ class OrderVSerializer(ModelSerializer):
 # class MidOrderVSerializer(MidOrderSerializer):
 #     order = OrderVSerializer()
 
+class UserVSerializer(MidOrderSerializer):
+    class Meta:
+        model = User
+        fields = ['name', 'ph_number']

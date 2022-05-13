@@ -53,7 +53,7 @@ class UpdateStatus(RetrieveUpdateAPIView):
 
 class Users(ListAPIView):
     queryset = Order.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserVSerializer
     permission_classes = [IsAdminUser]
 
     def get(self, request, *args, **kwargs):
