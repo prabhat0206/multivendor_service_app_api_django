@@ -1,10 +1,12 @@
 from rest_framework import generics
+from rest_framework.views import View
 from account.models import User
 from account.serializer import UserSerializer
 from client.models import Order, MidOrder
-from client.serializer import MidOrderSerializer, OrderWithMidOrder
+from client.serializer import MidOrderSerializer, OrderSerializer, OrderWithMidOrder
 from .models import Category, SubCategory
 from .serializer import *
+from django.db.models import Sum
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -115,3 +117,23 @@ class AssignDeliveryBoy(generics.UpdateAPIView):
         data.delivery_boy = User.objects.get(id=int(request.args.get('id')))
         data.save()
         return Response({"Success": True})
+
+
+class StatsView(generics.ListAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [IsAdminUser]
+    
+    def get(self, request):
+        orders_count = self.queryset().count()
+        cancelled_orders = self.queryset().filter(status="cancelled").count()
+        deliverd_orders = self.queryset().filter(status="completed")
+        total_amount = deliverd_orders.annotate(total_price=Sum("total_amount"))
+        services = Service.objects.count()
+        return Response({
+            "orders": orders_count,
+            "cancelled_orders": cancelled_orders,
+            "completed": deliverd_orders.count(),
+            "total_amount": total_amount.total_price,
+            "services": services
+        })

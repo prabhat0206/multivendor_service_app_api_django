@@ -6,7 +6,7 @@ from .serializers import *
 from adminn.serializer import QuerySerializer
 from rest_framework.permissions import IsAdminUser, BasePermission
 from account.serializer import UserSerializer
-from client.serializer import ServiceWithMoreDetails, MidOrderSerializer
+from client.serializer import OrderSerializer, ServiceWithMoreDetails, MidOrderSerializer
 
 
 class IsDeliveryUser(BasePermission):
@@ -16,8 +16,8 @@ class IsDeliveryUser(BasePermission):
 
 
 class MyOrders(ListAPIView):
-    queryset = MidOrder.objects.all()
-    serializer_class = MidOrderVSerializer
+    queryset = Order.objects.all()
+    serializer_class = OrderVSerializer
     permission_classes = [IsAdminUser]
 
     def get_queryset(self, *args, **kwargs):
@@ -34,8 +34,8 @@ class MyServices(ListAPIView):
 
 
 class UpdateStatus(RetrieveUpdateAPIView):
-    queryset = MidOrder.objects.all()
-    serializer_class = MidOrderSerializer
+    queryset = Order.objects.all()
+    serializer_class = OrderVSerializer
     permission_classes = [IsAdminUser, IsDeliveryUser]
 
     def update(self, request, pk):
