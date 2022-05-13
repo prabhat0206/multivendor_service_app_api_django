@@ -8,7 +8,7 @@ class OrderVSerializer(ModelSerializer):
     class Meta:
         model = Order
         fields = ['oid', 'address', 'date_time',
-                  'payment_method', 'midorder_set', 'total_amount']
+                  'payment_method', 'midorder_set', 'total_amount', 'status']
 
 
 # class MidOrderVSerializer(MidOrderSerializer):
