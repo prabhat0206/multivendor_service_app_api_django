@@ -12,7 +12,7 @@ from client.serializer import OrderSerializer, ServiceWithMoreDetails, MidOrderS
 class IsDeliveryUser(BasePermission):
 
     def has_permission(self, request, view):
-        return bool(request.user and request.user.delivery_boy)
+        return bool(request.user and request.user.delivery_boy) or bool(request.user and request.user.superuser)
 
 
 class MyOrders(ListAPIView):
