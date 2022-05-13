@@ -129,11 +129,12 @@ class StatsView(generics.ListAPIView):
         cancelled_orders = self.get_queryset().filter(status="cancelled").count()
         deliverd_orders = self.get_queryset().filter(status="completed")
         total_amount = deliverd_orders.annotate(total_price=Sum("total_amount"))
+        print(total_amount)
         services = Service.objects.count()
         return Response({
             "orders": orders_count,
             "cancelled_orders": cancelled_orders,
             "completed": deliverd_orders.count(),
-            "total_amount": total_amount.total_price,
+            # "total_amount": total_amount.total_price,
             "services": services
         })
