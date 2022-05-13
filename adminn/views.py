@@ -112,7 +112,7 @@ class AssignDeliveryBoy(generics.UpdateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderWithMidOrder
 
-    def update(self, request):
+    def update(self, request, pk):
         data = self.get_object()
         data.delivery_boy = User.objects.get(id=int(request.args.get('id')))
         data.save()
