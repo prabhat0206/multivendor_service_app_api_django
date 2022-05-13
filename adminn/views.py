@@ -114,7 +114,7 @@ class AssignDeliveryBoy(generics.UpdateAPIView):
 
     def update(self, request, pk):
         data = self.get_object()
-        data.delivery_boy = User.objects.get(id=int(request.args.get('id')))
+        data.delivery_boy = User.objects.get(id=int(request.GET.get('id')))
         data.save()
         return Response({"Success": True})
 
