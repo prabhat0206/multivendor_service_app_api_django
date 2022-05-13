@@ -1,12 +1,11 @@
 from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveUpdateAPIView
 from adminn.models import Query, Service
 from rest_framework.response import Response
-from client.models import MidOrder, Order
+from client.models import Order
 from .serializers import *
 from adminn.serializer import QuerySerializer
 from rest_framework.permissions import IsAdminUser, BasePermission
-from account.serializer import UserSerializer
-from client.serializer import OrderSerializer, ServiceWithMoreDetails, MidOrderSerializer
+from client.serializer import ServiceWithMoreDetails
 
 
 class IsDeliveryUser(BasePermission):
@@ -18,7 +17,7 @@ class IsDeliveryUser(BasePermission):
 class MyOrders(ListAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderVSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsDeliveryUser]
 
     def get_queryset(self, *args, **kwargs):
         return super(MyOrders, self).get_queryset(*args, **kwargs).filter(delivery_boy=self.request.user).order_by('-oid')
@@ -27,7 +26,7 @@ class MyOrders(ListAPIView):
 class MyServices(ListAPIView):
     queryset = Service.objects.all()
     serializer_class = ServiceWithMoreDetails
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsDeliveryUser]
 
     def get_queryset(self, *args, **kwargs):
         return super(MyServices, self).get_queryset(*args, **kwargs).filter(provider=self.request.user).order_by('-sid')
@@ -54,7 +53,7 @@ class UpdateStatus(RetrieveUpdateAPIView):
 class Users(ListAPIView):
     queryset = Order.objects.all()
     serializer_class = UserVSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsDeliveryUser]
 
     def get(self, request, *args, **kwargs):
         instance = self.get_queryset().filter(delivery_boy=request.user)
@@ -69,7 +68,7 @@ class QueryVendor(ListAPIView):
 
     queryset = Query.objects.all()
     serializer_class = QuerySerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsDeliveryUser]
 
     def get_queryset(self, *args, **kwargs):
         return super(QueryVendor, self).get_queryset(*args, **kwargs).filter(service__provider=self.request.user).order_by('-oid')
@@ -78,7 +77,7 @@ class QueryVendor(ListAPIView):
 class SendQueryToAdmin(UpdateAPIView):
     queryset = Query.objects.all()
     serializer_class = QuerySerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsDeliveryUser]
 
     def update(self, request):
         instance = self.get_object()
