@@ -18,8 +18,8 @@ urlpatterns = [
     path('review/<int:pk>', ReviewAdmin.as_view(), name='review_Update'),
     path('faq', FAQAdmin.as_view(), name='faq_add'),
     path('faq/<int:pk>', FAQAdmin.as_view(), name='faq_update'),
-    path('vendor', AddVendor.as_view(), name='add_vendor'),
-    path('update_vendor', UpdateDistroyVendor.as_view(), name='update_vendor'),
+    path('delivery', AddDelivery.as_view(), name='add_delivery'),
+    path('update_delivery', UpdateDistroyDelivery.as_view(), name='update_delivery'),
     path('assign_order/<int:pk>', AssignDeliveryBoy.as_view(), name='assign_order'),
     path('status', StatsView.as_view(), name='status'),
 ]

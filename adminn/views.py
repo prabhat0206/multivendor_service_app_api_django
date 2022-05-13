@@ -95,13 +95,13 @@ class FAQAdmin(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAdminUser]
 
 
-class AddVendor(generics.ListCreateAPIView):
-    queryset = User.objects.all().filter(staff=True)
+class AddDelivery(generics.ListCreateAPIView):
+    queryset = User.objects.all().filter(delivery_boy=True)
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser]
 
 
-class UpdateDistroyVendor(generics.RetrieveUpdateDestroyAPIView):
+class UpdateDistroyDelivery(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser]
