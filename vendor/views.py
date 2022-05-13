@@ -1,7 +1,7 @@
 from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveUpdateAPIView
 from adminn.models import Query, Service
 from rest_framework.response import Response
-from client.models import MidOrder
+from client.models import MidOrder, Order
 from .serializers import *
 from adminn.serializer import QuerySerializer
 from rest_framework.permissions import IsAdminUser, BasePermission
@@ -21,7 +21,7 @@ class MyOrders(ListAPIView):
     permission_classes = [IsAdminUser]
 
     def get_queryset(self, *args, **kwargs):
-        return super(MyOrders, self).get_queryset(*args, **kwargs).filter(delivery_boy=self.request.user).order_by('-id')
+        return super(MyOrders, self).get_queryset(*args, **kwargs).filter(delivery_boy=self.request.user).order_by('-oid')
 
 
 class MyServices(ListAPIView):
@@ -72,7 +72,7 @@ class QueryVendor(ListAPIView):
     permission_classes = [IsAdminUser]
 
     def get_queryset(self, *args, **kwargs):
-        return super(QueryVendor, self).get_queryset(*args, **kwargs).filter(service__provider=self.request.user).order_by('-id')
+        return super(QueryVendor, self).get_queryset(*args, **kwargs).filter(service__provider=self.request.user).order_by('-oid')
 
 
 class SendQueryToAdmin(UpdateAPIView):
