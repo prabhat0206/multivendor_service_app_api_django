@@ -34,12 +34,13 @@ class Register(generics.CreateAPIView):
         serialized = self.serializer_class(data=new_user)
         if (serialized.is_valid()):
             serialized.save()
+            created_user = User.objects.get(id=serialized.data["id"])
             if "referal_code_other" in request.data:
                 user = User.objects.get(referal_code=request.data["referal_code_other"])
                 if (user):
                     user.earned_points += 10
                     user.save()
-            return Response({"success": True, "data": serialized.data})
+            return Response({"success": True, "data": self.serializer_class(created_user).data, "token": created_user.auth_token.key})
         
         return Response({"success": False, "error": serialized.errors})
 
