@@ -28,7 +28,7 @@ class Order(models.Model):
     redeemed_points = models.IntegerField(default=0)
     coupon_id = models.CharField(max_length=255, blank=True, null=True)
     status = models.CharField(max_length=100, default="order_placed")
-    delivery_boy = models.ForeignKey(User, related_name="provided_by", on_delete=models.DO_NOTHING, blank=True, null=True)
+    delivery_boy = models.ForeignKey(User, related_name="provided_by", on_delete=models.SET_NULL, blank=True, null=True)
 
 
 class MidOrder(models.Model):
@@ -42,5 +42,5 @@ class MidOrder(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     start_time = models.TimeField(null=True, blank=True)
     end_time = models.TimeField(null=True, blank=True)
-    service = models.ForeignKey(Service, on_delete=models.DO_NOTHING)
+    service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True, blank=True)
     instruction = models.TextField(blank=True, null=True)
