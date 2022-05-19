@@ -144,4 +144,5 @@ class StatsView(generics.ListAPIView):
 class CarrierView(generics.ListAPIView):
     queryset = Carrier.objects.all()
     serializer_class = CarrierSerializer
+    permission_classes = [IsAdminUser]
     pagination_class = None
