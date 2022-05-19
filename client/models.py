@@ -1,6 +1,7 @@
+from unicodedata import category
 from django.db import models
 from account.models import User
-from adminn.models import Service
+from adminn.models import Category, Service, SubCategory
 from phonenumber_field.modelfields import PhoneNumberField
 
 class Address(models.Model):
@@ -44,3 +45,21 @@ class MidOrder(models.Model):
     end_time = models.TimeField(null=True, blank=True)
     service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True, blank=True)
     instruction = models.TextField(blank=True, null=True)
+
+
+class Carrier(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    ph_number = PhoneNumberField()
+    email = models.EmailField()
+    pin_code = models.IntegerField()
+    occupation = models.CharField(max_length=255)
+    annual_income = models.IntegerField()
+    pan_number = models.CharField(max_length=10)
+    sub_category = models.ForeignKey(SubCategory, on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.category = self.sub_category.category
+        super(Carrier, self).save(*args, **kwargs)
+

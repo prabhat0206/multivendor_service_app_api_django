@@ -2,8 +2,8 @@ from rest_framework import generics
 from rest_framework.views import View
 from account.models import User
 from account.serializer import UserSerializer
-from client.models import Order, MidOrder
-from client.serializer import MidOrderSerializer, OrderSerializer, OrderWithMidOrder
+from client.models import Carrier, Order, MidOrder
+from client.serializer import MidOrderSerializer, OrderSerializer, OrderWithMidOrder, CarrierSerializer
 from .models import Category, SubCategory
 from .serializer import *
 from django.db.models import Sum
@@ -139,3 +139,9 @@ class StatsView(generics.ListAPIView):
             "total_amount": total_amount,
             "services": services
         })
+
+
+class CarrierView(generics.ListAPIView):
+    queryset = Carrier.objects.all()
+    serializer_class = CarrierSerializer
+    pagination_class = None

@@ -1,6 +1,7 @@
+from dataclasses import fields
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from adminn.serializer import *
-from client.models import Address, MidOrder, Order
+from client.models import Address, Carrier, MidOrder, Order
 
 
 class CategorySerializerWithServices(CategorySerializer):
@@ -51,3 +52,9 @@ class TimeSlotSerializer(ModelSerializer):
 class ServiceViewSerializer(ServiceWithMoreDetails):
     review_set = ReviewSerializer(many=True)
     faq_set = FAQSerializer(many=True)
+
+
+class CarrierSerializer(ModelSerializer):
+    class Meta:
+        model = Carrier
+        fields = '__all__'

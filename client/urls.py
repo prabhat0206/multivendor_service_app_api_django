@@ -18,4 +18,5 @@ urlpatterns = [
     path('banner/<str:name>', BannerAPI.as_view(), name='banner'),
     path('order_id', OrderID.as_view(), name='order_id'),
     path('service/<int:pk>', ServiceViewApi.as_view(), name='service_api'),
+    path('apply', ApplyCarrier.as_view(), name='apply')
 ]

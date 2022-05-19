@@ -71,3 +71,15 @@ def login_with_ph_number(request):
         if user.check_password(data["password"]):
             return Response({"success": True, "token": user.auth_token.key, "user": UserSerializer(user).data})
     return Response({"success": False, "error": "Server unable to authenticate you"})
+
+
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def set_profile_picture(request):
+    data = request.FILES.get('image', None)
+    if data:
+        user = request.user
+        user.profile_pic = data
+        user.save()
+        return Response({"success": True, "message": "profile set successfully"})
+    return Response({"success": False, "error": "image not found"})
