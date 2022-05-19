@@ -96,6 +96,7 @@ class AddressUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
 class TreandingServices(generics.ListAPIView):
     queryset = Service.objects.all().order_by('-sid').filter(is_trending=True)
     serializer_class = ServiceWithMoreDetails
+    pagination_class = None
 
 
 class OrderAPI(generics.ListCreateAPIView):
@@ -148,7 +149,10 @@ class OrderAPI(generics.ListCreateAPIView):
                         total_amount += service.service_price
             model_data = Order.objects.get(oid=order.data['oid'])
             model_data.total_amount  = total_amount - (total_amount * data['discount'] / 100)
+            cart_products = request.user.service_set.all()
             model_data.save()
+            for service in cart_products:
+                request.user.remove(service)
             return Response({"success": True, "data": self.serializer_class(model_data).data})
         return Response({"success": False, "error": order.errors})
 
