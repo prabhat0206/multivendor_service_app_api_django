@@ -78,6 +78,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     superuser = models.BooleanField(default=False)
     delivery_boy = models.BooleanField(default=False)
     referal_code = models.CharField(max_length=10, null=True, blank=True)
+    refered_by = models.CharField(max_length=10, null=True, blank=True)
     earned_points = models.IntegerField(default=0)
     wallet_balance = models.IntegerField(default=0)
 

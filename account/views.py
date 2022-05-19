@@ -36,12 +36,13 @@ class Register(generics.CreateAPIView):
             serialized.save()
             created_user = User.objects.get(id=serialized.data["id"])
             if "referal_code_other" in request.data:
-                user = User.objects.get(referal_code=request.data["referal_code_other"])
+                user = User.objects.get(
+                    referal_code=request.data["referal_code_other"])
                 if (user):
                     user.earned_points += 10
                     user.save()
             return Response({"success": True, "data": self.serializer_class(created_user).data, "token": created_user.auth_token.key})
-        
+
         return Response({"success": False, "error": serialized.errors})
 
 
@@ -83,3 +84,25 @@ def set_profile_picture(request):
         user.save()
         return Response({"success": True, "message": "profile set successfully"})
     return Response({"success": False, "error": "image not found"})
+
+
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def refer_and_earn(request):
+    code = request.data.get("referal_code", None)
+    if code:
+        user = request.user
+        if user.refered_by:
+            return Response(406)
+        else:
+            referal_user = User.objects.get(referal_code=code)
+            if referal_user:
+                user.refered_by = code
+                user.save()
+                referal_user.earned_points += 10
+                referal_user.save()
+                return Response({"success": True})
+            else:
+                return Response(404)
+    else:
+        return Response(400)
