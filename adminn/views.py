@@ -142,7 +142,7 @@ class StatsView(generics.ListAPIView):
 
 
 class CarrierView(generics.ListAPIView):
-    queryset = Carrier.objects.all()
+    queryset = Carrier.objects.all().order_by("-id")
     serializer_class = CarrierSerializer
     permission_classes = [IsAdminUser]
     pagination_class = None
