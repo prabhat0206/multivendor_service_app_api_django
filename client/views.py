@@ -4,7 +4,7 @@ from rest_framework import generics
 from rest_framework.views import View
 from adminn.models import *
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from adminn.serializer import *
 from client.models import Address
 from django.conf import settings
@@ -207,3 +207,4 @@ class ServiceViewApi(generics.RetrieveAPIView):
 class ApplyCarrier(generics.CreateAPIView):
     queryset = Carrier.objects.all()
     serializer_class = CarrierSerializer
+    permission_classes = [AllowAny]
