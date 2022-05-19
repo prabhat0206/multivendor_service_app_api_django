@@ -206,4 +206,4 @@ class ServiceViewApi(generics.RetrieveAPIView):
 
 class ApplyCarrier(generics.CreateAPIView):
     queryset = Carrier.objects.all()
-    serializer_class = CarrierSerializer()
+    serializer_class = CarrierSerializer
