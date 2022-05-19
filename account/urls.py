@@ -8,4 +8,5 @@ urlpatterns = [
     path('user/login', login_with_ph_number, name='user'),
     path('set_profile', set_profile_picture, name='set_profile'),
     path('refer', refer_and_earn, name='refer'),
+    path('details', user_details, name='user_details'),
 ]

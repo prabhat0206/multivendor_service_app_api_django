@@ -106,3 +106,8 @@ def refer_and_earn(request):
                 return Response(404)
     else:
         return Response(400)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_details(request):
+    return Response(UserSerializer(request.user).data)
