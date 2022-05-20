@@ -27,6 +27,7 @@ class Order(models.Model):
     date_time = models.DateTimeField(auto_now_add=True)
     discount = models.IntegerField(default=0)
     redeemed_points = models.IntegerField(default=0)
+    wallet_balance_use = models.PositiveIntegerField(default=0)
     coupon_id = models.CharField(max_length=255, blank=True, null=True)
     status = models.CharField(max_length=100, default="order_placed")
     delivery_boy = models.ForeignKey(User, related_name="provided_by", on_delete=models.SET_NULL, blank=True, null=True)

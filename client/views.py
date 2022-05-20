@@ -111,6 +111,7 @@ class OrderAPI(generics.ListCreateAPIView):
         return self.get_paginated_response(paginated)
 
     def post(self, request):
+        user = request.user
         data = request.data
         data['user'] = request.user.id
         address = Address.objects.get(id=data['address'])
@@ -119,6 +120,13 @@ class OrderAPI(generics.ListCreateAPIView):
         if data['payment_method'] != 'cod':
             if not (settings.CLIENT.utility.verify_payment_signature(data)):
                 return Response({"success": False, "error": "payment id not valid"})
+        
+        if 'wallet_balance_use' in data:
+            if user.wallet_balance - int(data['wallet_balance_use']) < 0:
+                return Response({"success": False, "error": "Your wallet balance is not enough"})
+            user.wallet_balance =- int(data['wallet_balance_use'])
+            user.save()
+        
         order = OrderSerializer(data=data)
         if order.is_valid():
             order.save()
