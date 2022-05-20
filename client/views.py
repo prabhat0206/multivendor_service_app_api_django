@@ -221,3 +221,4 @@ class ApplyCarrier(generics.CreateAPIView):
 class CouponsViewApi(generics.ListAPIView):
     queryset = Coupon.objects.all()
     serializer_class = CouponSerializer
+    pagination_class = None
