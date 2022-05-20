@@ -216,3 +216,8 @@ class ApplyCarrier(generics.CreateAPIView):
     queryset = Carrier.objects.all()
     serializer_class = CarrierSerializer
     permission_classes = [AllowAny]
+
+
+class CouponsViewApi(generics.ListAPIView):
+    queryset = Coupon.objects.all()
+    serializer_class = CouponSerializer

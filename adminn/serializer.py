@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from .models import Category, Query, SubCategory, Service, Review, Offer, FAQ, Banner
+from .models import Category, Coupon, Query, SubCategory, Service, Review, Offer, FAQ, Banner
 
 class CategorySerializer(ModelSerializer):
     class Meta:
@@ -45,3 +45,8 @@ class QuerySerializer(ModelSerializer):
 #     class Meta:
 #         model = TimeSlot
 #         fields = '__all__'
+
+class CouponSerializer(ModelSerializer):
+    class Meta:
+        model = Coupon
+        fields = '__all__'

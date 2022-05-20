@@ -66,3 +66,10 @@ class Query(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     is_at_admin = models.BooleanField(default=False)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
+
+
+class Coupon(models.Model):
+    id = models.AutoField(primary_key=True)
+    coupon_id = models.CharField(max_length=100)
+    is_percentage = models.BooleanField(default=False)
+    value = models.PositiveIntegerField(default=1)

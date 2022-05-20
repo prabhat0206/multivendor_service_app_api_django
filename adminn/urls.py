@@ -22,5 +22,7 @@ urlpatterns = [
     path('update_delivery', UpdateDistroyDelivery.as_view(), name='update_delivery'),
     path('assign_order/<int:pk>', AssignDeliveryBoy.as_view(), name='assign_order'),
     path('status', StatsView.as_view(), name='status'),
-    path('carrier', CarrierView.as_view(), name='carrier')
+    path('carrier', CarrierView.as_view(), name='carrier'),
+    path('add_coupon', AddCoupon.as_view(), name='add_coupon'),
+    path('delete_coupon/<int:pk>', DeleteCouponView.as_view(), name='delete_coupon')
 ]

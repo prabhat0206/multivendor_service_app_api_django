@@ -146,3 +146,15 @@ class CarrierView(generics.ListAPIView):
     serializer_class = CarrierSerializer
     permission_classes = [IsAdminUser]
     pagination_class = None
+
+
+class AddCoupon(generics.CreateAPIView):
+    queryset = Coupon.objects.all()
+    serializer_class = CouponSerializer
+    permission_classes = [IsAdminUser]
+
+
+class DeleteCouponView(generics.DestroyAPIView):
+    queryset = Coupon.objects.all()
+    serializer_class = CouponSerializer
+    permission_classes = [IsAdminUser]
