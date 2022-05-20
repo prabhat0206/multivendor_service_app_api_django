@@ -160,7 +160,7 @@ class OrderAPI(generics.ListCreateAPIView):
             cart_products = request.user.service_set.all()
             model_data.save()
             for service in cart_products:
-                request.user.remove(service)
+                request.user.service_set.remove(service)
             return Response({"success": True, "data": self.serializer_class(model_data).data})
         return Response({"success": False, "error": order.errors})
 
