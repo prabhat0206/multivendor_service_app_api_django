@@ -111,3 +111,10 @@ def refer_and_earn(request):
 @permission_classes([IsAuthenticated])
 def user_details(request):
     return Response(UserSerializer(request.user).data)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def check_user_existance(request):
+    user = User.objects.filter(ph_number="+91"+request.GET.get("ph_number")).first()
+    if user: return Response({"success": True}) 
+    else: return Response({"success": False})
