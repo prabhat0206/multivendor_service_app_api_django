@@ -30,6 +30,7 @@ class OrderSerializer(ModelSerializer):
 
 
 class MidOrderSerializer(ModelSerializer):
+    service = ServiceSerializer()
     class Meta:
         model = MidOrder
         fields = '__all__'
