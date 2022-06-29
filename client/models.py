@@ -35,12 +35,8 @@ class Order(models.Model):
 
 class MidOrder(models.Model):
     id = models.AutoField(primary_key=True)
-    sid = models.IntegerField()
-    service_name = models.CharField(max_length=255)
     service_cost = models.FloatField(default=0)
-    service_description = models.TextField()
     service_date = models.DateField()
-    image = models.ImageField(upload_to='services', null=True, blank=True)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     start_time = models.TimeField(null=True, blank=True)
     end_time = models.TimeField(null=True, blank=True)

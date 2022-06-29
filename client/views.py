@@ -133,28 +133,19 @@ class OrderAPI(generics.ListCreateAPIView):
             services_id = [services['sid'] for services in data['services']]
             services = Service.objects.filter(sid__in=services_id)
             total_amount = 0
-            for service in services:
-                for ser in data['services']:
-                    if ser['sid'] == service.sid:
-                        service_data = {
-                            "sid": service.sid,
-                            "service_name": service.name,
-                            "service_description": service.description,
-                            "service_cost": service.service_price,
-                            "image": service.image,
-                            "order": order.data['oid'],
-                            "service": service.sid,
-                            "start_time": ser['start_time'],
-                            "end_time": ser['end_time'],
-                            "service_date": ser['service_date'],
-                            "instruction": ser['instruction']
-                        }
-                        mid_order = MidOrderSerializer(data=service_data)
-                        if mid_order.is_valid():
-                            mid_order.save()
-                        else:
-                            print(mid_order.errors)
-                        total_amount += service.service_price
+            for service_from_client in data['services']:
+                service = services.filter(sid=service_from_client['sid']).first()
+                if not service:
+                    continue
+                service_from_client["service_cost"] = service.service_price
+                service_from_client["service"] = service.sid
+                service_from_client["order"] = order.data["oid"]
+                mid_order = MidOrderSerializer(data=service_from_client)
+                if mid_order.is_valid():
+                    mid_order.save()
+                else:
+                    print(mid_order.errors)
+                total_amount += service.service_price
             model_data = Order.objects.get(oid=order.data['oid'])
             model_data.total_amount  = total_amount - (total_amount * data['discount'] / 100)
             cart_products = request.user.service_set.all()

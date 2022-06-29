@@ -30,14 +30,33 @@ class OrderSerializer(ModelSerializer):
 
 
 class MidOrderSerializer(ModelSerializer):
-    service = ServiceSerializer()
     class Meta:
         model = MidOrder
         fields = '__all__'
 
 
+class MidOrderSerializerWithService(MidOrderSerializer):
+    service = ServiceSerializer()
+    service_name = SerializerMethodField()
+    service_description = SerializerMethodField()
+    image = SerializerMethodField()
+    sid = SerializerMethodField()
+
+    def get_service_name(self, instance):
+        return instance.service.name
+
+    def get_service_description(self, instance):
+        return instance.service.description
+
+    def get_image(self, instance):
+        return instance.service.image.url
+
+    def get_sid(self, instance):
+        return instance.service.sid
+
+
 class OrderWithMidOrder(OrderSerializer):
-    midorder_set = MidOrderSerializer(many=True)
+    midorder_set = MidOrderSerializerWithService(many=True)
     buyer_name = SerializerMethodField()
 
     def get_buyer_name(self, instance):
