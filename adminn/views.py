@@ -114,7 +114,7 @@ class StatsView(generics.ListAPIView):
         total_amount = 0
         for order in deliverd_orders:
             total_amount += order.total_amount
-        services = Service.objects.count()
+        services = Service.objects.all().count()
         return Response({
             "orders": orders_count,
             "cancelled_orders": cancelled_orders,
