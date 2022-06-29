@@ -12,7 +12,7 @@ from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 
 
-class AddItemToModelWithImage(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
+class CustomGenericView(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
 
     parser_classes = [MultiPartParser, FormParser]
     permission_classes = [IsAdminUser]
@@ -23,22 +23,22 @@ class AddItemToModelWithImage(generics.CreateAPIView, generics.RetrieveUpdateDes
         return Response({"success": True})
 
 
-class CategoryADMIN(AddItemToModelWithImage):
+class CategoryADMIN(CustomGenericView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
 
-class SubCategoryADMIN(AddItemToModelWithImage):
+class SubCategoryADMIN(CustomGenericView):
     queryset = SubCategory.objects.all()
     serializer_class = SubCategorySerializer
 
 
-class ServiceADMIN(AddItemToModelWithImage):
+class ServiceADMIN(CustomGenericView):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
 
 
-class BannerADMIN(AddItemToModelWithImage):
+class BannerADMIN(CustomGenericView):
     queryset = Banner.objects.all()
     serializer_class = BannerSerializer
 
