@@ -7,7 +7,7 @@ class Banner(models.Model):
     image = models.ImageField(upload_to="banner")
 
     def __str__(self) -> str:
-        return self.name
+        return str(self.name)
 
 class Category(models.Model):
     cid = models.AutoField(primary_key=True)
@@ -15,7 +15,7 @@ class Category(models.Model):
     image = models.ImageField(upload_to="category")
 
     def __str__(self) -> str:
-        return self.name
+        return str(self.name)
 
 class SubCategory(models.Model):
     scid = models.AutoField(primary_key=True)
@@ -24,7 +24,7 @@ class SubCategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return self.name
+        return str(self.name)
 
 class Service(models.Model):
     sid = models.AutoField(primary_key=True)
@@ -48,7 +48,7 @@ class Service(models.Model):
         super(Service, self).save(*args, **kwargs)
 
     def __str__(self) -> str:
-        return self.name
+        return str(self.name)
 
 class Review(models.Model):
     id = models.AutoField(primary_key=True)
