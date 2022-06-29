@@ -1,11 +1,18 @@
+from typing import Any
 from django.db import models
 from account.models import User
 
 
 class CustomManaget(models.Manager):
-
-    def get_queryset(self):
-        return super().get_queryset().exclude(is_deleted=True)
+    
+    def all(self):
+        return super().all().exclude(is_deleted=True)
+    
+    def filter(self, *args: Any, **kwargs: Any):
+        return super().filter(*args, **kwargs).exclude(is_deleted=True)
+    
+    def get(self, *args: Any, **kwargs: Any):
+        return super().get(*args, **kwargs).exclude(is_deleted=True)
 
 
 class Banner(models.Model):
