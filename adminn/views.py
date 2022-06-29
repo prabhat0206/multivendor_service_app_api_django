@@ -16,28 +16,11 @@ class AddItemToModelWithImage(generics.CreateAPIView, generics.RetrieveUpdateDes
 
     parser_classes = [MultiPartParser, FormParser]
     permission_classes = [IsAdminUser]
-
-    def post(self, request):
-        incoming_data = request._request.POST.dict()
-        incoming_data['image'] = request._request.FILES.get('image')
-        serialized_data = self.serializer_class(data=incoming_data)
-        if serialized_data.is_valid():
-            serialized_data.save()
-            return Response({"success": True, "data": serialized_data.data})
-        return Response({"success": False, "error": serialized_data.errors})
-
-    def update(self, request, pk):
+    
+    def delete(self, request, pk):
         instance = self.get_object()
-        print(request.data)
-        data_for_change = request._request.POST.dict()
-        if 'image' in request._request.FILES:
-            data_for_change['image'] = request._request.FILES.get('image')
-        serialized = self.serializer_class(
-            instance, data=data_for_change, partial=True)
-        if serialized.is_valid():
-            self.perform_update(serialized)
-            return Response({"success": True, "data": serialized.data})
-        return Response({"success": False, "Errors": str(serialized.errors)})
+        instance.is_deleted = True
+        return Response({"success": True})
 
 
 class CategoryADMIN(AddItemToModelWithImage):
