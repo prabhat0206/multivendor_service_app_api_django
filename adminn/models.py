@@ -1,6 +1,13 @@
 from django.db import models
 from account.models import User
 
+
+class CustomManaget(models.Manager):
+
+    def get_queryset(self):
+        return super().get_queryset().exclude(is_deleted=True)
+
+
 class Banner(models.Model):
     bid = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, default="top")
@@ -13,6 +20,9 @@ class Category(models.Model):
     cid = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     image = models.ImageField(upload_to="category")
+    is_deleted = models.BooleanField(default=False)
+
+    objects = CustomManaget()
 
     def __str__(self) -> str:
         return str(self.name) if self.name else "No Category"
@@ -22,6 +32,9 @@ class SubCategory(models.Model):
     name = models.CharField(max_length=255)
     image = models.ImageField(upload_to="sub_category")
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    is_deleted = models.BooleanField(default=False)
+
+    objects = CustomManaget()
 
     def __str__(self) -> str:
         return str(self.name) if self.name else "No Sub Category"
@@ -42,6 +55,9 @@ class Service(models.Model):
     max_time_range = models.IntegerField(default=2)
     min_strength = models.IntegerField(default=1)
     max_strength = models.IntegerField(default=2)
+    is_deleted = models.BooleanField(default=False)
+
+    objects = CustomManaget()
 
     def save(self, *args, **kwargs):
         self.category = self.sub_category.category
