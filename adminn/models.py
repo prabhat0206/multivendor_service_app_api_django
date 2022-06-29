@@ -6,16 +6,25 @@ class Banner(models.Model):
     name = models.CharField(max_length=255, default="top")
     image = models.ImageField(upload_to="banner")
 
+    def __str__(self) -> str:
+        return self.name
+
 class Category(models.Model):
     cid = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     image = models.ImageField(upload_to="category")
+
+    def __str__(self) -> str:
+        return self.name
 
 class SubCategory(models.Model):
     scid = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     image = models.ImageField(upload_to="sub_category")
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.name
 
 class Service(models.Model):
     sid = models.AutoField(primary_key=True)
@@ -37,6 +46,9 @@ class Service(models.Model):
     def save(self, *args, **kwargs):
         self.category = self.sub_category.category
         super(Service, self).save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        return self.name
 
 class Review(models.Model):
     id = models.AutoField(primary_key=True)
