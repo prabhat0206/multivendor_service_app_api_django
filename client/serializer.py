@@ -43,16 +43,16 @@ class MidOrderSerializerWithService(MidOrderSerializer):
     sid = SerializerMethodField()
 
     def get_service_name(self, instance):
-        return instance.service.name
+        return instance.service.name if instance.service else ""
 
     def get_service_description(self, instance):
-        return instance.service.description
+        return instance.service.description if instance.service else ""
 
     def get_image(self, instance):
-        return instance.service.image.url
+        return instance.service.image.url if instance.service else ""
 
     def get_sid(self, instance):
-        return instance.service.sid
+        return instance.service.sid if instance.service else 0
 
 
 class OrderWithMidOrder(OrderSerializer):
