@@ -213,3 +213,9 @@ class CouponsViewApi(generics.ListAPIView):
     queryset = Coupon.objects.all()
     serializer_class = CouponSerializer
     pagination_class = None
+
+
+class OfferViewApi(generics.ListAPIView):
+    queryset = Offer.objects.all()
+    serializer_class = OfferSerializer
+    pagination_class = None

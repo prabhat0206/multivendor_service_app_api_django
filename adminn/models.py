@@ -88,10 +88,8 @@ class FAQ(models.Model):
 
 class Offer(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255)
-    coupon_id = models.CharField(max_length=25, unique=True)
+    title = models.CharField(max_length=255)
     description = models.TextField()
-    discount = models.IntegerField(default=10)
 
 
 class Query(models.Model):
@@ -108,3 +106,6 @@ class Coupon(models.Model):
     coupon_id = models.CharField(max_length=100)
     is_percentage = models.BooleanField(default=False)
     value = models.PositiveIntegerField(default=1)
+    valid_till = models.DateField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+

@@ -4,7 +4,7 @@ from account.models import User
 from account.serializer import UserSerializer
 from client.models import Carrier, Order, MidOrder
 from client.serializer import MidOrderSerializer, OrderSerializer, OrderWithMidOrder, CarrierSerializer
-from .models import Category, SubCategory
+from .models import Category, SubCategory, Offer, FAQ, Banner, Query, Coupon, Service, Review
 from .serializer import *
 from django.db.models import Sum
 from rest_framework.permissions import IsAdminUser
@@ -140,4 +140,17 @@ class AddCoupon(generics.CreateAPIView):
 class DeleteCouponView(generics.DestroyAPIView):
     queryset = Coupon.objects.all()
     serializer_class = CouponSerializer
+    permission_classes = [IsAdminUser]
+
+
+class OfferView(generics.ListCreateAPIView):
+    queryset = Offer.objects.all()
+    serializer_class = OfferSerializer
+    permission_classes = [IsAdminUser]
+    pagination_class = None
+
+
+class DeleteOfferView(generics.DestroyAPIView):
+    queryset = Offer.objects.all()
+    serializer_class = OfferSerializer
     permission_classes = [IsAdminUser]

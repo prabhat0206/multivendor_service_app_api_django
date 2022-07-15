@@ -19,5 +19,6 @@ urlpatterns = [
     path('order_id', OrderID.as_view(), name='order_id'),
     path('service/<int:pk>', ServiceViewApi.as_view(), name='service_api'),
     path('apply', ApplyCarrier.as_view(), name='apply'),
-    path('coupons', CouponsViewApi.as_view(), name='coupons')
+    path('coupons', CouponsViewApi.as_view(), name='coupons'),
+    path('offer', OfferViewApi.as_view(), name='offer'),
 ]
