@@ -27,4 +27,5 @@ urlpatterns = [
     path('delete_coupon/<int:pk>', DeleteCouponView.as_view(), name='delete_coupon'),
     path('offer', OfferView.as_view(), name='offer'),
     path('delete_offer/<int:pk>', DeleteOfferView.as_view(), name='delete_offer'),
+    path('seach_user', SearchUser.as_view(), name='search_user'),
 ]

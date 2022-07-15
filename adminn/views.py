@@ -10,6 +10,7 @@ from django.db.models import Sum
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
+from django.db.models import Q
 
 
 class CustomGenericView(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
@@ -154,3 +155,19 @@ class DeleteOfferView(generics.DestroyAPIView):
     queryset = Offer.objects.all()
     serializer_class = OfferSerializer
     permission_classes = [IsAdminUser]
+
+
+class SearchUser(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
+
+    def get_queryset(self):
+        query = self.request.GET.get('query')
+        if query:
+            return self.queryset.filter(
+                Q(username__icontains=query) |
+                Q(email__icontains=query) |
+                Q(phone__icontains=query)
+            )
+        return self.queryset
