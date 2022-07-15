@@ -168,6 +168,6 @@ class SearchUser(generics.ListAPIView):
             return self.queryset.filter(
                 Q(username__icontains=query) |
                 Q(email__icontains=query) |
-                Q(phone__icontains=query)
+                Q(ph_number__icontains=query)
             )
         return self.queryset
