@@ -56,6 +56,12 @@ class OrderADMIN(generics.ListAPIView):
     permission_classes = [IsAdminUser]
 
 
+class OrderByIdADMIN(generics.RetrieveAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [IsAdminUser]
+
+
 class UserADMIN(generics.ListAPIView):
     queryset = User.objects.all().filter(staff=False, superuser=False)
     serializer_class = UserSerializer
