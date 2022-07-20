@@ -39,9 +39,16 @@ class ServiceADMIN(CustomGenericView):
     serializer_class = ServiceSerializer
 
 
-class BannerADMIN(CustomGenericView):
+class BannerADMIN(generics.DestroyAPIView):
     queryset = Banner.objects.all()
     serializer_class = BannerSerializer
+    permission_classes = [IsAdminUser]
+
+    def delete(self, request, pk):
+        instance = self.get_object()
+        instance.delete()
+        return Response({"success": True})
+
 
 
 class BannersADMIN(generics.ListAPIView):
@@ -148,6 +155,11 @@ class DeleteCouponView(generics.DestroyAPIView):
     queryset = Coupon.objects.all()
     serializer_class = CouponSerializer
     permission_classes = [IsAdminUser]
+
+    def delete(self, request, pk):
+        instance = self.get_object()
+        instance.delete()
+        return Response({"success": True})
 
 
 class OfferView(generics.ListCreateAPIView):
