@@ -21,6 +21,7 @@ class CustomGenericView(generics.CreateAPIView, generics.RetrieveUpdateDestroyAP
     def delete(self, request, pk):
         instance = self.get_object()
         instance.is_deleted = True
+        instance.save()
         return Response({"success": True})
 
 
